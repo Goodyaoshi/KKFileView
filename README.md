@@ -117,6 +117,8 @@ server {
     location @previewauth {
         internal;
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
         # 鉴权接口，需要支持id跟url鉴权
         proxy_pass http://system/api/preview/auth?id=$fileid&url=$fileurl;
