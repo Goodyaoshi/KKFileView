@@ -103,17 +103,20 @@ server {
         auth_request @previewauth;
 
         # 预览文件
+        proxy_set_header X-Base-Url $scheme://$host:$server_port/preview;
         proxy_pass http://kkfileview/$proxyuri;
     }
 
     # 静态资源
     location ~* '^/preview/([^/\d]{2,15}\/.+)$' {
+        proxy_set_header X-Base-Url $scheme://$host:$server_port/preview;
         proxy_pass http://kkfileview/$1?$args;
     }
 
     # 权限验证
     location @previewauth {
         internal;
+        proxy_set_header Host $host;
 
         # 鉴权接口，需要支持id跟url鉴权
         proxy_pass http://system/api/preview/auth?id=$fileid&url=$fileurl;
