@@ -32,7 +32,6 @@ public class ConfigConstants {
     private static String ftpPassword;
     private static String ftpControlEncoding;
     private static String baseUrl;
-    private static String sourceUrl;
     private static String fileDir = ConfigUtils.getHomePath() + File.separator + "file" + File.separator;
     private static String localPreviewDir;
     private static CopyOnWriteArraySet<String> trustHostSet;
@@ -203,19 +202,6 @@ public class ConfigConstants {
 
     public static void setBaseUrlValue(String baseUrl) {
         ConfigConstants.baseUrl = baseUrl;
-    }
-
-    public static String getSourceUrl() {
-        return sourceUrl;
-    }
-
-    @Value("${source.url:default}")
-    public void setSourceUrl(String sourceUrl) {
-        setSourceUrlValue(sourceUrl);
-    }
-
-    public static void setSourceUrlValue(String sourceUrl) {
-        ConfigConstants.sourceUrl = sourceUrl;
     }
 
     public static String getFileDir() {

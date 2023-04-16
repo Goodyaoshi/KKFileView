@@ -1,6 +1,5 @@
 package cn.keking.web.controller;
 
-import cn.keking.config.ConfigConstants;
 import cn.keking.model.FileAttribute;
 import cn.keking.service.FileHandlerService;
 import cn.keking.service.FilePreview;
@@ -50,16 +49,6 @@ public class OnlinePreviewController {
         this.fileHandlerService = fileHandlerService;
         this.cacheService = cacheService;
         this.otherFilePreview = otherFilePreview;
-    }
-
-    @GetMapping( "/onlinePreview/{fileName}")
-    public String onlinePreviewById(String fileName, Model model, HttpServletRequest req) {
-        String fileUrl = ConfigConstants.getBaseUrl() + fileName;
-        FileAttribute fileAttribute = fileHandlerService.getFileAttribute(fileUrl, req);
-        model.addAttribute("file", fileAttribute);
-        FilePreview filePreview = previewFactory.get(fileAttribute);
-        logger.info("预览文件url：{}，previewType：{}", fileUrl, fileAttribute.getType());
-        return filePreview.filePreviewHandle(fileUrl, model, fileAttribute);
     }
 
     @GetMapping( "/onlinePreview")
