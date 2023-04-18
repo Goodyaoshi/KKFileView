@@ -5,6 +5,10 @@ import cn.keking.model.FileAttribute;
 import cn.keking.model.ReturnResponse;
 import io.mola.galimatias.GalimatiasParseException;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -78,7 +82,19 @@ public class DownloadUtils {
             if (!fileAttribute.getSkipDownLoad()) {
                 if (isHttpUrl(url)) {
                     File realFile = new File(realPath);
-                    FileUtils.copyURLToFile(url, realFile);
+                    String cookie = fileAttribute.getCookie();
+                    if (cookie != null) {
+                        CloseableHttpClient httpClient = HttpClients.createDefault();
+                        HttpGet httpGet = new HttpGet(urlStr);
+                        httpGet.addHeader("Cookie", cookie);
+                        CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+                        HttpEntity entity = httpResponse.getEntity();
+                        if(entity != null){
+                            FileUtils.copyInputStreamToFile(entity.getContent(), realFile);
+                        }
+                    }else{
+                        FileUtils.copyURLToFile(url, realFile);
+                    }
                 } else if (isFtpUrl(url)) {
                     String ftpUsername = WebUtils.getUrlParameterReg(fileAttribute.getUrl(), URL_PARAM_FTP_USERNAME);
                     String ftpPassword = WebUtils.getUrlParameterReg(fileAttribute.getUrl(), URL_PARAM_FTP_PASSWORD);

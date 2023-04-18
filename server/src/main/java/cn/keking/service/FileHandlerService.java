@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -326,6 +327,15 @@ public class FileHandlerService {
             String userToken = req.getParameter("userToken");
             if (StringUtils.hasText(userToken)) {
                 attribute.setUserToken(userToken);
+            }
+
+            Cookie[] cookies = req.getCookies();
+            if(cookies.length > 0) {
+                String cooKieString = "";
+                for (Cookie cookie : cookies) {
+                    cooKieString = cooKieString + cookie.getName() + "=" + cookie.getValue() + ";";
+                }
+                attribute.setCookie(cooKieString);
             }
         }
 

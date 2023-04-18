@@ -1,5 +1,6 @@
 package cn.keking.model;
 
+import javax.servlet.http.Cookie;
 import cn.keking.config.ConfigConstants;
 
 /**
@@ -12,6 +13,7 @@ public class FileAttribute {
     private String suffix;
     private String name;
     private String url;
+    private String cookie;
     private String fileKey;
     private String filePassword;
     private String userToken;
@@ -99,6 +101,14 @@ public class FileAttribute {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getCookie() {
+        return cookie;
+    }
+
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
     }
 
     public Boolean getSkipDownLoad() {
